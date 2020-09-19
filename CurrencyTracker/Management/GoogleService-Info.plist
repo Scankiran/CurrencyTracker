@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>283273119354-9afhv5vl8k16ve8c6tf0lak8hu7o6hbt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.283273119354-9afhv5vl8k16ve8c6tf0lak8hu7o6hbt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAERi7Ma6gFrAOz-unV3E3-WzWkSon3fpQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>283273119354</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cankiran.CurrencyTracker</string>
+	<key>PROJECT_ID</key>
+	<string>currencyapi-56147</string>
+	<key>STORAGE_BUCKET</key>
+	<string>currencyapi-56147.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:283273119354:ios:bb4722e9867ce43495ddc3</string>
+	<key>DATABASE_URL</key>
+	<string>https://currencyapi-56147.firebaseio.com</string>
+</dict>
+</plist>
