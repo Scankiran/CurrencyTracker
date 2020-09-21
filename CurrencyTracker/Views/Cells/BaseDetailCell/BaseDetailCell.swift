@@ -28,10 +28,10 @@ class BaseDetailCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(data:SummaryDataType) {
-        nameLabel.text = data.name.uppercased()
-        valueOrBuyLabel.text = data.value
-        if data.type == "up" {
+    func configure(name:String,value:String,type:String) {
+        nameLabel.text = name.uppercased()
+        valueOrBuyLabel.text = value
+        if type == "up" {
             valueOrBuyLabel.textColor = UIColor.systemGreen
             typeOrSellLabel.text = "🟢"
         } else {

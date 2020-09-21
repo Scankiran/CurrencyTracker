@@ -62,7 +62,7 @@ class DetailDataType: Codable {
 
 class BankDataType: Codable {
     private enum CodingKeys:String,CodingKey {
-        case name = "name"
+        case name = "bankName"
         case buy = "buy"
         case sell = "sell"
     }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C287AC52518EE2A0031A918 /* CurrencyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C287AC42518EE2A0031A918 /* CurrencyDetailView.swift */; };
+		2C287ACA25191B980031A918 /* BankValuesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C287AC825191B980031A918 /* BankValuesCell.swift */; };
+		2C287ACB25191B980031A918 /* BankValuesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C287AC925191B980031A918 /* BankValuesCell.xib */; };
 		2C4638F02515425800728DE4 /* BaseDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4638EE2515425800728DE4 /* BaseDetailCell.swift */; };
 		2C4638F12515425800728DE4 /* BaseDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C4638EF2515425800728DE4 /* BaseDetailCell.xib */; };
 		2C4638F625154D7100728DE4 /* DetailedInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4638F425154D7100728DE4 /* DetailedInfoCell.swift */; };
@@ -27,6 +30,9 @@
 
 /* Begin PBXFileReference section */
 		1058D4AA8729ED17FEF2C2A6 /* Pods-CurrencyTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyTracker.release.xcconfig"; path = "Target Support Files/Pods-CurrencyTracker/Pods-CurrencyTracker.release.xcconfig"; sourceTree = "<group>"; };
+		2C287AC42518EE2A0031A918 /* CurrencyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDetailView.swift; sourceTree = "<group>"; };
+		2C287AC825191B980031A918 /* BankValuesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankValuesCell.swift; sourceTree = "<group>"; };
+		2C287AC925191B980031A918 /* BankValuesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BankValuesCell.xib; sourceTree = "<group>"; };
 		2C4638EE2515425800728DE4 /* BaseDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailCell.swift; sourceTree = "<group>"; };
 		2C4638EF2515425800728DE4 /* BaseDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseDetailCell.xib; sourceTree = "<group>"; };
 		2C4638F425154D7100728DE4 /* DetailedInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedInfoCell.swift; sourceTree = "<group>"; };
@@ -60,6 +66,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C287AC725191B6C0031A918 /* BankValuesCell */ = {
+			isa = PBXGroup;
+			children = (
+				2C287AC825191B980031A918 /* BankValuesCell.swift */,
+				2C287AC925191B980031A918 /* BankValuesCell.xib */,
+			);
+			path = BankValuesCell;
+			sourceTree = "<group>";
+		};
 		2C4638ED2515420400728DE4 /* BaseDetailCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +144,7 @@
 			children = (
 				2CE443D42514E4A100245077 /* Cells */,
 				2CBC21B62514AC7B00152537 /* MainViewController.swift */,
+				2C287AC42518EE2A0031A918 /* CurrencyDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,6 +174,7 @@
 		2CE443D42514E4A100245077 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				2C287AC725191B6C0031A918 /* BankValuesCell */,
 				2C6AD40825160621003EFA13 /* CollectionViewCell */,
 				2C4638F325154AFC00728DE4 /* DetailedInfoCell */,
 				2C4638ED2515420400728DE4 /* BaseDetailCell */,
@@ -249,6 +266,7 @@
 				2CBC21CE2514B0A200152537 /* GoogleService-Info.plist in Resources */,
 				2CBC21BF2514AC7E00152537 /* Assets.xcassets in Resources */,
 				2CBC21BA2514AC7B00152537 /* Main.storyboard in Resources */,
+				2C287ACB25191B980031A918 /* BankValuesCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +321,8 @@
 			files = (
 				2CE443D22514D89500245077 /* DataModel.swift in Sources */,
 				2C4638F02515425800728DE4 /* BaseDetailCell.swift in Sources */,
+				2C287AC52518EE2A0031A918 /* CurrencyDetailView.swift in Sources */,
+				2C287ACA25191B980031A918 /* BankValuesCell.swift in Sources */,
 				2C6AD40C25160657003EFA13 /* SummaryInfoCell.swift in Sources */,
 				2CBC21B72514AC7B00152537 /* MainViewController.swift in Sources */,
 				2C4638F625154D7100728DE4 /* DetailedInfoCell.swift in Sources */,

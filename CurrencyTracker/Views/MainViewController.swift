@@ -34,6 +34,10 @@ class MainViewController: UIViewController  {
     @IBAction func changeInformation(_ sender: UISegmentedControl) {
         tableView.reloadData()
     }
+    
+    @IBAction func rightButton(_ sender: Any) {
+        performSegue(withIdentifier: "detail", sender: self)
+    }
 }
 
 
