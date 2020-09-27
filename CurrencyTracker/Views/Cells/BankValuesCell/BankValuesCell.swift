@@ -16,7 +16,7 @@ class BankValuesCell: UITableViewCell {
     @IBOutlet weak var sellLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        mainView.layer.cornerRadius = 20
+        //mainView.layer.cornerRadius = 20
         // Initialization code
     }
 

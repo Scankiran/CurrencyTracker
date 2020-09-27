@@ -28,6 +28,7 @@ class CurrencyDetailView: UIViewController,UITextFieldDelegate {
     var bankData:[BankDataType] = []
     var changeRate:[SummaryDataType] = []
     
+    var currencyType:String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,17 +41,19 @@ class CurrencyDetailView: UIViewController,UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getData(currencyType: "euro")
+        getData(currencyType: currencyType)
     }
     
     @IBAction func calculateCurrency(_ sender: UITextField) {
         if !sender.text!.isEmpty, let senderValue = Double(sender.text!){
             if sender.tag == 0  {
                 let value = senderValue * Double(currencyValueLabel.text!)!
-                secondCurrencyField.text = "\(value)"
+                let roundValue = Double(round(1000*value)/1000)
+                secondCurrencyField.text = "\(roundValue)"
             } else {
                 let value = (1 / Double(currencyValueLabel.text!)!) * senderValue
-                firstCurrencyField.text = "\(value)"
+                let roundValue = Double(round(1000*value)/1000)
+                firstCurrencyField.text = "\(roundValue)"
             }
         } else {
             secondCurrencyField.text = ""
@@ -69,6 +72,8 @@ extension CurrencyDetailView {
             if let err = err {
                 print(err.localizedDescription)
             } else {
+                let michael = snapshot!.data()!["generalInfo"]! as! Dictionary<String, String>
+                print(michael)
                 let bankDataa = "\(snapshot!.data()!["banks"]!)".data(using: .utf8)!
                 
                 let changeRateData = "\(snapshot!.data()!["changeRate"]!)".data(using: .utf8)!
@@ -76,7 +81,7 @@ extension CurrencyDetailView {
                     self.bankData = try JSONDecoder.init().decode([BankDataType].self, from: bankDataa)
                     self.changeRate = try JSONDecoder.init().decode([SummaryDataType].self, from: changeRateData)
                     self.registerAndSetTableView()
-                    self.setupView(self.changeRate, "8.91", "Euro")
+                    self.setupView(self.changeRate, michael["buy"]!, michael["name"]!)
 
                 } catch  {
                     print(error.localizedDescription)
@@ -87,7 +92,7 @@ extension CurrencyDetailView {
     
     func setupView(_ dataSet:[SummaryDataType],_ currencyValue:String, _ currencyName:String) {
         currencyNameLabel.text = currencyName
-        currencyValueLabel.text = currencyValue
+        currencyValueLabel.text = currencyValue.replacingOccurrences(of: ",", with: ".")
         firstCurrencyField.placeholder = currencyName
         
         for rate in dataSet {
@@ -123,6 +128,8 @@ extension CurrencyDetailView: UITableViewDelegate,UITableViewDataSource {
         let data = bankData[indexPath.row]
 
         cell.configure(data)
+        (indexPath.row % 2 == 0) ? cell.mainView.backgroundColor = UIColor.init(displayP3Red: 232/255, green: 242/255, blue: 249/255, alpha: 1) : (cell.mainView.backgroundColor = UIColor.clear)
+        
         
         return cell
     }
@@ -131,7 +138,7 @@ extension CurrencyDetailView: UITableViewDelegate,UITableViewDataSource {
         tableView.register(UINib.init(nibName: "BankValuesCell", bundle: nil), forCellReuseIdentifier: "bankValuesCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 80
+        tableView.rowHeight = 60
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     

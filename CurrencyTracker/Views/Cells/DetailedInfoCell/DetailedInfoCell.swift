@@ -36,9 +36,8 @@ class DetailedInfoCell: UITableViewCell {
         sellLabel.text = sell
         minLabel.text = min
         maksLabel.text = maks
-        
-        (type == "up") ? (nameLabel.textColor = UIColor.systemRed) : (nameLabel.textColor = UIColor.systemGreen)
-        
+                
+        (type == "up") ? (nameLabel.textColor = UIColor.systemGreen) : (nameLabel.textColor = UIColor.systemRed)
         
     }
     

@@ -14,11 +14,12 @@ class MainViewController: UIViewController  {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scroolView: UIScrollView!
     
-    let db = Firestore.firestore()
+    lazy var db = Firestore.firestore()
     
     var summaryDataCollection:[SummaryDataType] = []
     var detailedDataCollection:[DetailDataType] = []
     
+    lazy var selectedData:SummaryDataType? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class MainViewController: UIViewController  {
         getSummaryData()
         tableView.backgroundView?.layer.cornerRadius = 20
         
-        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(getSummaryData), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(getSummaryData), userInfo: nil, repeats: true)
     }
     
     @IBAction func changeInformation(_ sender: UISegmentedControl) {
@@ -37,6 +38,12 @@ class MainViewController: UIViewController  {
     
     @IBAction func rightButton(_ sender: Any) {
         performSegue(withIdentifier: "detail", sender: self)
+    }
+    
+    @IBAction func profilePage(_ sender: Any) {
+        performSegue(withIdentifier: "profileAndCalculatorPage", sender: self)
+
+        
     }
 }
 
@@ -82,7 +89,7 @@ extension MainViewController {
 
 
 
-
+//MARK: Collection View
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return summaryDataCollection.count
@@ -95,6 +102,21 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.configure(data: data)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedData = summaryDataCollection[indexPath.row]
+        if selectedData!.name.lowercased() != Formatter.run.currencyTypeFormatter(currency: selectedData!.name) {
+            performSegue(withIdentifier: "detail", sender: self)
+        }
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail" {
+            let vc = segue.destination as! CurrencyDetailView
+            vc.currencyType = Formatter.run.currencyTypeFormatter(currency: selectedData!.name)
+        }
     }
     
     func giveDelegateToCollectionView() {
@@ -123,8 +145,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.configure(name: data.name, buy: data.buy, sell: data.sell, min: data.min, maks: data.max, type: data.type)
         
-        return cell
+        (indexPath.row % 2 == 0) ? cell.backView.backgroundColor = UIColor.init(displayP3Red: 232/255, green: 242/255, blue: 249/255, alpha: 1) : (cell.backView.backgroundColor = UIColor.clear)
         
+        return cell
         
     }
     
@@ -134,7 +157,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.register(UINib.init(nibName: "DetailedInfoCell", bundle: nil), forCellReuseIdentifier: "detailedCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 80
+        tableView.rowHeight = 60
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     

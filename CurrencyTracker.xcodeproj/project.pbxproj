@@ -16,6 +16,9 @@
 		2C4638F725154D7100728DE4 /* DetailedInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C4638F525154D7100728DE4 /* DetailedInfoCell.xib */; };
 		2C6AD40C25160657003EFA13 /* SummaryInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AD40A25160657003EFA13 /* SummaryInfoCell.swift */; };
 		2C6AD40D25160657003EFA13 /* SummaryInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AD40B25160657003EFA13 /* SummaryInfoCell.xib */; };
+		2C765080251A066F0081FAB2 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C76507F251A066F0081FAB2 /* Formatter.swift */; };
+		2C765087251A12920081FAB2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765086251A12920081FAB2 /* DashboardView.swift */; };
+		2CB9155B251B6F43003E2C56 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9155A251B6F43003E2C56 /* ProfileView.swift */; };
 		2CBC21B32514AC7B00152537 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B22514AC7B00152537 /* AppDelegate.swift */; };
 		2CBC21B52514AC7B00152537 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B42514AC7B00152537 /* SceneDelegate.swift */; };
 		2CBC21B72514AC7B00152537 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B62514AC7B00152537 /* MainViewController.swift */; };
@@ -24,6 +27,7 @@
 		2CBC21BF2514AC7E00152537 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CBC21BE2514AC7E00152537 /* Assets.xcassets */; };
 		2CBC21C22514AC7E00152537 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CBC21C02514AC7E00152537 /* LaunchScreen.storyboard */; };
 		2CBC21CE2514B0A200152537 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CBC21CD2514B0A200152537 /* GoogleService-Info.plist */; };
+		2CD8E7B9251DE2B000E73783 /* InvestmentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8E7B8251DE2B000E73783 /* InvestmentEditView.swift */; };
 		2CE443D22514D89500245077 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE443D12514D89500245077 /* DataModel.swift */; };
 		7BE0BFE98C6873214C8D48E2 /* Pods_CurrencyTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 586CB0AF2987195BC64A40C7 /* Pods_CurrencyTracker.framework */; };
 /* End PBXBuildFile section */
@@ -39,6 +43,9 @@
 		2C4638F525154D7100728DE4 /* DetailedInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailedInfoCell.xib; sourceTree = "<group>"; };
 		2C6AD40A25160657003EFA13 /* SummaryInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryInfoCell.swift; sourceTree = "<group>"; };
 		2C6AD40B25160657003EFA13 /* SummaryInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryInfoCell.xib; sourceTree = "<group>"; };
+		2C76507F251A066F0081FAB2 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		2C765086251A12920081FAB2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		2CB9155A251B6F43003E2C56 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		2CBC21AF2514AC7B00152537 /* Currency Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CBC21B22514AC7B00152537 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CBC21B42514AC7B00152537 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +56,7 @@
 		2CBC21C12514AC7E00152537 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CBC21C32514AC7E00152537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CBC21CD2514B0A200152537 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2CD8E7B8251DE2B000E73783 /* InvestmentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestmentEditView.swift; sourceTree = "<group>"; };
 		2CE443D12514D89500245077 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		586CB0AF2987195BC64A40C7 /* Pods_CurrencyTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEB57283EDB91F4AC742902 /* Pods-CurrencyTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyTracker.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyTracker/Pods-CurrencyTracker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE443D12514D89500245077 /* DataModel.swift */,
+				2C76507F251A066F0081FAB2 /* Formatter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -145,6 +154,9 @@
 				2CE443D42514E4A100245077 /* Cells */,
 				2CBC21B62514AC7B00152537 /* MainViewController.swift */,
 				2C287AC42518EE2A0031A918 /* CurrencyDetailView.swift */,
+				2C765086251A12920081FAB2 /* DashboardView.swift */,
+				2CB9155A251B6F43003E2C56 /* ProfileView.swift */,
+				2CD8E7B8251DE2B000E73783 /* InvestmentEditView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,9 +331,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C765080251A066F0081FAB2 /* Formatter.swift in Sources */,
+				2CD8E7B9251DE2B000E73783 /* InvestmentEditView.swift in Sources */,
+				2CB9155B251B6F43003E2C56 /* ProfileView.swift in Sources */,
 				2CE443D22514D89500245077 /* DataModel.swift in Sources */,
 				2C4638F02515425800728DE4 /* BaseDetailCell.swift in Sources */,
 				2C287AC52518EE2A0031A918 /* CurrencyDetailView.swift in Sources */,
+				2C765087251A12920081FAB2 /* DashboardView.swift in Sources */,
 				2C287ACA25191B980031A918 /* BankValuesCell.swift in Sources */,
 				2C6AD40C25160657003EFA13 /* SummaryInfoCell.swift in Sources */,
 				2CBC21B72514AC7B00152537 /* MainViewController.swift in Sources */,

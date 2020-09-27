@@ -7,7 +7,7 @@ target 'CurrencyTracker' do
 
   # Pods for CurrencyTracker
 	pod 'Firebase/Analytics'
+	pod 'Firebase/Auth'
 	pod 'FirebaseFirestoreSwift'
-	pod 'RAMAnimatedTabBarController'
 
 end
