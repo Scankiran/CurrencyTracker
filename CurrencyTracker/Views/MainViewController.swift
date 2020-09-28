@@ -52,36 +52,21 @@ class MainViewController: UIViewController  {
 extension MainViewController {
     @objc func getSummaryData() {
         print("run")
-        db.collection("general").document("summary").getDocument { (snapshot, err) in
-            if let error = err {
-                print(error.localizedDescription)
+        API.run.getCurrencySummary { (result, err) in
+            if let err = err {
+                print(err.localizedDescription)
             } else {
-                let data =  "\(snapshot!.data()!["last"]!)".data(using: .utf8)
-                    
-                do {
-                    let json = try JSONDecoder().decode([SummaryDataType].self, from: data!)
-                    self.summaryDataCollection = json
-                    self.collectionView.reloadData()
-                } catch {
-                    print("Error during JSON serialization: \(error.localizedDescription)")
-
-                }
+                self.summaryDataCollection = result!
+                self.collectionView.reloadData()
             }
         }
         
-        db.collection("general").document("all").getDocument { (snapshot, err) in
-            if let error = err {
-                print(error.localizedDescription)
+        API.run.getCurrencyDetailed { (result, err) in
+            if let err = err {
+                print(err.localizedDescription)
             } else {
-                let data =  "\(snapshot!.data()!["last"]!)".data(using: .utf8)
-                do {
-                    let json = try JSONDecoder().decode([DetailDataType].self, from: data!)
-                    self.detailedDataCollection = json
-                    self.tableView.reloadData()
-                } catch {
-                    print("Error during JSON serialization: \(error.localizedDescription)")
-
-                }
+                self.detailedDataCollection = result!
+                self.tableView.reloadData()
             }
         }
     }

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-
+import CoreData
 class DashboardView: UIViewController {
 
     @IBOutlet weak var userInformationView: UIView!
@@ -23,10 +23,14 @@ class DashboardView: UIViewController {
     @IBOutlet weak var beforeInvestmenCashLabel: UILabel!
     @IBOutlet weak var afterInvestmentCashLabel: UILabel!
     
+    lazy var investmentData:[NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkUser()
+        if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
+            self.beforeInvestmenCashLabel.text = money
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -65,7 +69,7 @@ extension DashboardView {
     @objc func createAlert() {
         let alert = UIAlertController.init(title: "Ne kadar paranız var?", message: "Girdiğiniz miktar yatırımlarınızdan önceki miktarı belirtmelidir. ", preferredStyle: .alert)
         
-        alert.addTextField { (textField) in
+            alert.addTextField { (textField) in
             textField.placeholder = "Para Miktarınız"
             textField.textAlignment = .center
         }
@@ -94,6 +98,13 @@ extension DashboardView {
           // User is signed in.
           // ...
             let userUID = user.uid
+            userNameLabel.text = user.displayName
+            
+            
+            if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
+                self.beforeInvestmenCashLabel.text = money
+            }
+            
             
             //show username
             //show userProfile Photo
@@ -111,4 +122,58 @@ extension DashboardView {
             userNameLabel.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(goToProfile)))
         }
     }
+}
+
+
+
+//MARK: CoreData
+extension DashboardView {
+    func getDataFromCoreData() {
+        guard let appDelegate =
+          UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext =
+          appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+          NSFetchRequest<NSManagedObject>(entityName: "Dates")
+        
+        //3
+        do {
+            let data = try managedContext.fetch(fetchRequest)
+            self.investmentData = data
+            
+        } catch let error as NSError {
+          print("Could not fetch. \(error), \(error.userInfo)")
+        }
+     tableView.reloadData()
+    }
+}
+
+
+
+//MARK: TableView
+extension DashboardView: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return investmentData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "investmentCell") as! InvestmentCell
+        let data = investmentData[indexPath.row]
+        
+        cell.configure(data: data)
+        
+        return cell
+    }
+    
+    func giveDelegateToTableView() {
+        tableView.register(UINib.init(nibName: "InvestmentCell", bundle: nil), forCellReuseIdentifier: "investmentCell")
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
 }
