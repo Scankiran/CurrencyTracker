@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import FirebaseAuth
+import FirebaseFirestore
 
 class AddInvestmentView: UIViewController {
 
@@ -22,6 +24,7 @@ class AddInvestmentView: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var typeField: UITextField!
+    @IBOutlet weak var secondTypeField: UILabel!
     @IBOutlet weak var valueField: UITextField!
     @IBOutlet weak var dateField: UITextField!
     @IBOutlet weak var buyValueField: UITextField!
@@ -35,6 +38,7 @@ class AddInvestmentView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         giveDelegateToPickerView()
+        setupView()
         typeField.inputView = pickerView
         dateField.inputView = datePicker
         datePicker.datePickerMode = .date
@@ -51,36 +55,43 @@ class AddInvestmentView: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    //Alış tarihi date picker olacak ve eğer
-//bugün seçilmezse birim parası sorulacak. Yatırımdan sonraki para miktarı sorulacak.
+    @IBAction func saveButton(_ sender: Any) {
+        //Firebase'e userUid üzerinden kayıt edilecek.
+        saveCoreData(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!, datePicker.date)
+        
+        let value = Double(UserDefaults.standard.value(forKey: "userMoney") as! String)!
+        let restMoney = Double(valueField.text!)! * Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!
+        
+        UserDefaults.standard.setValue("\(value - restMoney)", forKey: "restMoney")
+        
+    }
+    
 
-    //Yatırımın bankasıda sorulabilir.
-    
-    //Yatırım miktarı daha önceki yatırımlarından sonra kalan parayı gösterecek.
-    
-    //Coredata'ya ve eğer auth olmuşsa firebase'e kaydedilecek.
-    
-    //User defaults'da değer güncellemesi yapılacak.
     
     @objc func checkDate(datePicker:UIDatePicker) {
-        var selectedDate = datePicker.date
-        
         let date = Date()
         let formatter = DateFormatter()
         
         formatter.dateFormat = "yyyy-MM-dd"
         let result = formatter.string(from: date)
-        var formatted = formatter.string(from: selectedDate)
+        let formatted = formatter.string(from: datePicker.date)
+        
+        dateField.text = formatted
         
         if result == formatted {
             //TODO: Buraya birim fiyatı girecek şekilde ayarlanacak.
+            for index in API.run.summaryData {
+                if index.name.lowercased() == typeField.text?.lowercased() {
+                    buyValueField.text = index.value
+                }
+            }
         }
         
         
     }
     
     func getMoneyAndCalculate() {
-        if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
+        if let money = UserDefaults.standard.value(forKey: "restMoney") as? String {
             let moneyValue = Double(money.replacingOccurrences(of: ",", with: "."))
             
             for index in API.run.summaryData {
@@ -101,38 +112,40 @@ class AddInvestmentView: UIViewController {
                     continue
                 }
             }
-            tryLabel.text = "\(money) ₺"
+            tryLabel.text = "\(Double(round(1000*(Double(money)!))/1000)) ₺"
         }
     }
     
-    func saveCoreData(_ date:String,_ target:Int,_ status:Int,_ isSucces:Bool) {
+    func saveCoreData(_ name:String,_ type:String,_ value:Double,_ buyValue:Double, _ date:Date) {
           
-          guard let appDelegate =
+        guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
-          }
+        }
           
           // 1
-          let managedContext =
+        let managedContext =
             appDelegate.persistentContainer.viewContext
           
           // 2
-          let entity =
-            NSEntityDescription.entity(forEntityName: "Dates",
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Investments",
                                        in: managedContext)!
           
-          let entry = NSManagedObject(entity: entity,
+        let entry = NSManagedObject(entity: entity,
                                        insertInto: managedContext)
           
           // 3
-          
-            
-            let data:[String:Any] = ["date":date,"target":target,"status":status,"isSucces":isSucces]
+        let data:[String:Any] = ["name":name,"type":type,"value":value,"buyValue":buyValue,"date":date]
             
             entry.setValuesForKeys(data)
           // 4
           do {
             try managedContext.save()
+            if Auth.auth().currentUser != nil {
+                let db = Firestore.firestore()
+                db.collection("user").document("\(Auth.auth().currentUser!.uid)").setData([self.dateField.text! : data])
+            }
             print("Succes")
           } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
@@ -152,7 +165,7 @@ extension AddInvestmentView {
         let toolbar = UIToolbar.init()
         toolbar.sizeToFit()
         
-        let done = UIBarButtonItem.init(title: "Tamam", style: .done, target: nil, action: nil)
+        let done = UIBarButtonItem.init(title: "Tamam", style: .done, target: nil, action: #selector(closeKeyboard))
         let space = UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
         toolbar.setItems([space,done], animated: true)
@@ -180,6 +193,11 @@ extension AddInvestmentView: UIPickerViewDelegate, UIPickerViewDataSource {
         }
         
         return currency[row - 1]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        typeField.text = currency[row - 1]
+        secondTypeField.text = currency[row - 1]
     }
     
     func giveDelegateToPickerView() {

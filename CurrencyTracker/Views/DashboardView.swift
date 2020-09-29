@@ -12,6 +12,9 @@ import FirebaseAuth
 import CoreData
 class DashboardView: UIViewController {
 
+    //Yatırım Silme seçeneği olacak (Coredata ve firebase'den silme) ayrıca paraları güncelleme olacak.
+//    Data formatter yapılacak cell için.
+    //User auth işlemlerine başlansın. Firestore'da yatırım tutma yapıları için çalışma yap.
     @IBOutlet weak var userInformationView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,12 +27,15 @@ class DashboardView: UIViewController {
     @IBOutlet weak var afterInvestmentCashLabel: UILabel!
     
     lazy var investmentData:[NSManagedObject] = []
+    lazy var afterInvestmentValue:Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkUser()
+        getDataFromCoreData()
+        giveDelegateToTableView()
         if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
-            self.beforeInvestmenCashLabel.text = money
+            self.beforeInvestmenCashLabel.text = "\(money) ₺"
         }
         // Do any additional setup after loading the view.
     }
@@ -51,6 +57,9 @@ class DashboardView: UIViewController {
         }
     }
     
+    @IBAction func back(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
 }
@@ -78,6 +87,16 @@ extension DashboardView {
             
             if let text = alert.textFields![0].text {
                 UserDefaults.standard.set(text, forKey: "userMoney")
+                
+                //Yatırım yapılabilecek parayı burda kayıtlı olarak tuttum. Eğer daha önceden kayıt edilmişse güncel parayı eski paranın üzerine ekledim.
+                if UserDefaults.standard.value(forKey: "restMoney") == nil {
+                    UserDefaults.standard.set(text, forKey: "restMoney")
+                } else {
+                    let value = Double(text)!
+                    let restMoney = Double(UserDefaults.standard.value(forKey: "restMoney") as! String)!
+                    UserDefaults.standard.set("\(value + restMoney)", forKey: "restMoney")
+                }
+                
                 self.beforeInvestmenCashLabel.text = alert.textFields![0].text
             }
         }
@@ -139,7 +158,7 @@ extension DashboardView {
         
         //2
         let fetchRequest =
-          NSFetchRequest<NSManagedObject>(entityName: "Dates")
+          NSFetchRequest<NSManagedObject>(entityName: "Investments")
         
         //3
         do {
@@ -167,6 +186,8 @@ extension DashboardView: UITableViewDelegate, UITableViewDataSource {
         
         cell.configure(data: data)
         
+        afterInvestmentValue += (data.value(forKey: "buyValue") as! Double) * (data.value(forKey: "value") as! Double)
+        afterInvestmentCashLabel.text = "\(Double(round(10000*(afterInvestmentValue))/10000)) ₺"
         return cell
     }
     
@@ -174,6 +195,8 @@ extension DashboardView: UITableViewDelegate, UITableViewDataSource {
         tableView.register(UINib.init(nibName: "InvestmentCell", bundle: nil), forCellReuseIdentifier: "investmentCell")
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 146
+        
     }
     
 }

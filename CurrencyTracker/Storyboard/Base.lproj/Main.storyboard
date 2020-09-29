@@ -147,6 +147,9 @@
                                 <rect key="frame" x="49" y="557" width="276" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Kaydet"/>
+                                <connections>
+                                    <action selector="saveButton:" destination="veo-iN-ohF" eventType="touchUpInside" id="E6V-Zv-yb9"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q0L-JO-SvL">
                                 <rect key="frame" x="220" y="296" width="118" height="34"/>
@@ -190,6 +193,7 @@
                         <outlet property="gbpLabel" destination="rWk-Eb-yzH" id="HwB-U4-CB9"/>
                         <outlet property="goldLabel" destination="Htt-9b-oZr" id="Ev1-vK-qqL"/>
                         <outlet property="nameField" destination="q0L-JO-SvL" id="6hi-8Q-8Z6"/>
+                        <outlet property="secondTypeField" destination="exd-Ft-EhJ" id="TbF-ge-ODT"/>
                         <outlet property="tryLabel" destination="ly0-9g-3KX" id="sfa-T4-QU9"/>
                         <outlet property="typeField" destination="xVW-qJ-EYP" id="n1t-yM-iom"/>
                         <outlet property="usdLabel" destination="6i3-qF-IeL" id="OFL-IU-lZS"/>
@@ -344,6 +348,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjJ-4x-gb0">
                                         <rect key="frame" x="0.0" y="0.0" width="111.5" height="30"/>
                                         <state key="normal" title="Geri"/>
+                                        <connections>
+                                            <action selector="back:" destination="WCv-Gd-fAD" eventType="touchUpInside" id="ym4-g9-IuV"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJH-kY-Pr7">
                                         <rect key="frame" x="115.5" y="0.0" width="112" height="30"/>

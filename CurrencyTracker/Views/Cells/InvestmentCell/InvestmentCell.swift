@@ -11,6 +11,10 @@ import CoreData
 
 class InvestmentCell: UITableViewCell {
 
+    @IBOutlet weak var nameField: UILabel!
+    @IBOutlet weak var valueAndTypeLabel: UILabel!
+    @IBOutlet weak var buyValueLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,6 +28,15 @@ class InvestmentCell: UITableViewCell {
     
     
     func configure(data:NSManagedObject) {
-        print(data.value(forKey: "type"))
+        let name = data.value(forKey: "name")
+        let date = data.value(forKey: "date")
+        let type = data.value(forKey: "type") as! String
+        let buyValue = data.value(forKey: "buyValue") as! Double
+        let value = data.value(forKey: "value") as! Double
+        
+        nameField.text = "\(name!)"
+        valueAndTypeLabel.text = "\(value) \(type)"
+        buyValueLabel.text = "\(buyValue)"
+        dateLabel.text = "\(date!)"
     }
 }
