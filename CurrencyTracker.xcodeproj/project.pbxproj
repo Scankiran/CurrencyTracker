@@ -33,6 +33,7 @@
 		2CBC21CE2514B0A200152537 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CBC21CD2514B0A200152537 /* GoogleService-Info.plist */; };
 		2CD8E7B9251DE2B000E73783 /* AddInvestmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD8E7B8251DE2B000E73783 /* AddInvestmentView.swift */; };
 		2CE443D22514D89500245077 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE443D12514D89500245077 /* DataModel.swift */; };
+		2CED30512525D38D00759B43 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CED30502525D38D00759B43 /* CoreDataController.swift */; };
 		7BE0BFE98C6873214C8D48E2 /* Pods_CurrencyTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 586CB0AF2987195BC64A40C7 /* Pods_CurrencyTracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		2CBC21CD2514B0A200152537 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CD8E7B8251DE2B000E73783 /* AddInvestmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvestmentView.swift; sourceTree = "<group>"; };
 		2CE443D12514D89500245077 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		2CED30502525D38D00759B43 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		586CB0AF2987195BC64A40C7 /* Pods_CurrencyTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEB57283EDB91F4AC742902 /* Pods-CurrencyTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyTracker.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyTracker/Pods-CurrencyTracker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +164,7 @@
 				2CE443D12514D89500245077 /* DataModel.swift */,
 				2C76507F251A066F0081FAB2 /* Formatter.swift */,
 				2C2DC50025223FD60021A114 /* API.swift */,
+				2CED30502525D38D00759B43 /* CoreDataController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				2C4638F625154D7100728DE4 /* DetailedInfoCell.swift in Sources */,
 				2C2DC4FD252237280021A114 /* InvestmentCell.swift in Sources */,
 				2CBC21B32514AC7B00152537 /* AppDelegate.swift in Sources */,
+				2CED30512525D38D00759B43 /* CoreDataController.swift in Sources */,
 				2CBC21B52514AC7B00152537 /* SceneDelegate.swift in Sources */,
 				2C2DC50125223FD60021A114 /* API.swift in Sources */,
 				2CBC21BD2514AC7B00152537 /* CurrencyTracker.xcdatamodeld in Sources */,

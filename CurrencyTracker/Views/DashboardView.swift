@@ -32,8 +32,19 @@ class DashboardView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkUser()
-        getDataFromCoreData()
         giveDelegateToTableView()
+
+        CoreDataController.run.getInvestment { (data, error) in
+            if let err = error {
+                //TODO: SHow Fail
+                print(err.localizedDescription)
+                return
+            }
+            
+            self.investmentData = data!
+            self.tableView.reloadData()
+        }
+        
         if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
             self.beforeInvestmenCashLabel.text = "\(money) ₺"
         }
@@ -47,6 +58,9 @@ class DashboardView: UIViewController {
     @IBAction func addInvestment(_ sender: Any) {
         addInvestment()
     }
+    @IBAction func toTransfer(_ sender: Any) {
+        performSegue(withIdentifier: "toTransfer", sender: self)
+    }
     
     func isInitial() {
         if UserDefaults.standard.value(forKey: "isInitial") == nil {
@@ -58,10 +72,8 @@ class DashboardView: UIViewController {
     }
     
     @IBAction func back(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
-    
-    
 }
 
 
@@ -143,34 +155,6 @@ extension DashboardView {
     }
 }
 
-
-
-//MARK: CoreData
-extension DashboardView {
-    func getDataFromCoreData() {
-        guard let appDelegate =
-          UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext =
-          appDelegate.persistentContainer.viewContext
-        
-        //2
-        let fetchRequest =
-          NSFetchRequest<NSManagedObject>(entityName: "Investments")
-        
-        //3
-        do {
-            let data = try managedContext.fetch(fetchRequest)
-            self.investmentData = data
-            
-        } catch let error as NSError {
-          print("Could not fetch. \(error), \(error.userInfo)")
-        }
-     tableView.reloadData()
-    }
-}
 
 
 

@@ -41,7 +41,17 @@ class CurrencyDetailView: UIViewController,UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getData(currencyType: currencyType)
+        API.run.getCurrencyDetail(currencyType) { (result, error) in
+            if let err = error {
+                //show fail hud
+                print(err.localizedDescription)
+            } else {
+                self.bankData = result!["bankData"] as! [BankDataType]
+                self.changeRate = result!["changeRate"] as! [SummaryDataType]
+                self.registerAndSetTableView()
+                self.setupView(self.changeRate, result!["value"] as! String, result!["name"] as! String)
+            }
+        }
     }
     
     @IBAction func calculateCurrency(_ sender: UITextField) {
@@ -60,35 +70,18 @@ class CurrencyDetailView: UIViewController,UITextFieldDelegate {
             firstCurrencyField.text = ""
         }
     }
+    
+    
+    @IBAction func back(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 
 
 //MARK: Connection
 extension CurrencyDetailView {
-    
-    func getData(currencyType:String) {
-        db.collection("\(currencyType)").document("last").getDocument { (snapshot, err) in
-            if let err = err {
-                print(err.localizedDescription)
-            } else {
-                let michael = snapshot!.data()!["generalInfo"]! as! Dictionary<String, String>
-                print(michael)
-                let bankDataa = "\(snapshot!.data()!["banks"]!)".data(using: .utf8)!
-                
-                let changeRateData = "\(snapshot!.data()!["changeRate"]!)".data(using: .utf8)!
-                do {
-                    self.bankData = try JSONDecoder.init().decode([BankDataType].self, from: bankDataa)
-                    self.changeRate = try JSONDecoder.init().decode([SummaryDataType].self, from: changeRateData)
-                    self.registerAndSetTableView()
-                    self.setupView(self.changeRate, michael["buy"]!, michael["name"]!)
 
-                } catch  {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
     
     func setupView(_ dataSet:[SummaryDataType],_ currencyValue:String, _ currencyName:String) {
         currencyNameLabel.text = currencyName

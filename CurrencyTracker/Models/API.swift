@@ -108,15 +108,17 @@ class API {
                 print(err.localizedDescription)
                 handler(nil,err)
             } else {
+                let generalInfo = snapshot!.data()!["generalInfo"]! as! Dictionary<String, String>
                 let bankDataa = "\(snapshot!.data()!["banks"]!)".data(using: .utf8)!
                 let changeRateData = "\(snapshot!.data()!["changeRate"]!)".data(using: .utf8)!
                 
                 do {
                     let bankData = try JSONDecoder.init().decode([BankDataType].self, from: bankDataa)
                     let changeRate = try JSONDecoder.init().decode([SummaryDataType].self, from: changeRateData)
-                    handler(["bankData":bankData,"changeRate":changeRate],nil)
+                    handler(["bankData":bankData,"changeRate":changeRate,"name":generalInfo["name"]!,"value":generalInfo["buy"]!],nil)
 
                 } catch  {
+                    handler(nil,error as Error)
                     print(error.localizedDescription)
                 }
             }

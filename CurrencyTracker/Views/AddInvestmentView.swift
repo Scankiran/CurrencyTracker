@@ -57,7 +57,15 @@ class AddInvestmentView: UIViewController {
     
     @IBAction func saveButton(_ sender: Any) {
         //Firebase'e userUid üzerinden kayıt edilecek.
-        saveCoreData(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!, datePicker.date)
+        CoreDataController.run.saveInvestment(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!, datePicker.date) { (result, error) in
+            
+            if let err = error {
+                //show fail hud
+                return
+            } else {
+                //show succes hud
+            }
+        }
         
         let value = Double(UserDefaults.standard.value(forKey: "userMoney") as! String)!
         let restMoney = Double(valueField.text!)! * Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!
@@ -114,42 +122,6 @@ class AddInvestmentView: UIViewController {
             }
             tryLabel.text = "\(Double(round(1000*(Double(money)!))/1000)) ₺"
         }
-    }
-    
-    func saveCoreData(_ name:String,_ type:String,_ value:Double,_ buyValue:Double, _ date:Date) {
-          
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-          
-          // 1
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-          
-          // 2
-        let entity =
-            NSEntityDescription.entity(forEntityName: "Investments",
-                                       in: managedContext)!
-          
-        let entry = NSManagedObject(entity: entity,
-                                       insertInto: managedContext)
-          
-          // 3
-        let data:[String:Any] = ["name":name,"type":type,"value":value,"buyValue":buyValue,"date":date]
-            
-            entry.setValuesForKeys(data)
-          // 4
-          do {
-            try managedContext.save()
-            if Auth.auth().currentUser != nil {
-                let db = Firestore.firestore()
-                db.collection("user").document("\(Auth.auth().currentUser!.uid)").setData([self.dateField.text! : data])
-            }
-            print("Succes")
-          } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-          }
     }
     
     @objc func closeKeyboard() {
