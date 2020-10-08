@@ -33,7 +33,15 @@ class DashboardView: UIViewController {
         super.viewDidLoad()
         checkUser()
         giveDelegateToTableView()
-
+        
+        if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
+            self.beforeInvestmenCashLabel.text = "\(money) ₺"
+        }
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         CoreDataController.run.getInvestment { (data, error) in
             if let err = error {
                 //TODO: SHow Fail
@@ -44,11 +52,6 @@ class DashboardView: UIViewController {
             self.investmentData = data!
             self.tableView.reloadData()
         }
-        
-        if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {
-            self.beforeInvestmenCashLabel.text = "\(money) ₺"
-        }
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func updateMoney(_ sender: Any) {
@@ -59,7 +62,7 @@ class DashboardView: UIViewController {
         addInvestment()
     }
     @IBAction func toTransfer(_ sender: Any) {
-        performSegue(withIdentifier: "toTransfer", sender: self)
+        //performSegue(withIdentifier: "toTransfer", sender: self)
     }
     
     func isInitial() {
@@ -74,6 +77,15 @@ class DashboardView: UIViewController {
     @IBAction func back(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func toProfile(_ sender: Any) {
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "toProfile", sender: self)
+        }
+
+        
+    }
+    
 }
 
 
@@ -84,7 +96,7 @@ class DashboardView: UIViewController {
 extension DashboardView {
     
     @objc func goToProfile() {
-        performSegue(withIdentifier: "toProfile", sender: self)
+        performSegue(withIdentifier: "toSignIn", sender: self)
     }
     
     @objc func createAlert() {
@@ -129,7 +141,9 @@ extension DashboardView {
           // User is signed in.
           // ...
             let userUID = user.uid
+            print(userUID)
             userNameLabel.text = user.displayName
+            
             
             
             if let money = UserDefaults.standard.value(forKey: "userMoney") as? String {

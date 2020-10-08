@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import FirebaseAuth
 import FirebaseFirestore
+import ARSLineProgress
 
 class AddInvestmentView: UIViewController {
 
@@ -54,16 +55,21 @@ class AddInvestmentView: UIViewController {
         self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
+    @IBAction func back(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func saveButton(_ sender: Any) {
-        //Firebase'e userUid üzerinden kayıt edilecek.
         CoreDataController.run.saveInvestment(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!, datePicker.date) { (result, error) in
             
             if let err = error {
                 //show fail hud
+                ARSLineProgress.showFail()
                 return
             } else {
                 //show succes hud
+                ARSLineProgress.showSuccess()
+                self.navigationController?.popViewController(animated: true)
             }
         }
         
@@ -168,8 +174,10 @@ extension AddInvestmentView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        typeField.text = currency[row - 1]
-        secondTypeField.text = currency[row - 1]
+        if row != 0 {
+            typeField.text = currency[row - 1]
+            secondTypeField.text = currency[row - 1]
+        }
     }
     
     func giveDelegateToPickerView() {

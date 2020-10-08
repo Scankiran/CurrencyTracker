@@ -22,7 +22,8 @@
 		2C6AD40D25160657003EFA13 /* SummaryInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AD40B25160657003EFA13 /* SummaryInfoCell.xib */; };
 		2C765080251A066F0081FAB2 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C76507F251A066F0081FAB2 /* Formatter.swift */; };
 		2C765087251A12920081FAB2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765086251A12920081FAB2 /* DashboardView.swift */; };
-		2CB9155B251B6F43003E2C56 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9155A251B6F43003E2C56 /* ProfileView.swift */; };
+		2C7CD9FC252DCA89000CE2B5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CD9FB252DCA89000CE2B5 /* SettingsView.swift */; };
+		2CB9155B251B6F43003E2C56 /* SignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9155A251B6F43003E2C56 /* SignInPage.swift */; };
 		2CBC21B32514AC7B00152537 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B22514AC7B00152537 /* AppDelegate.swift */; };
 		2CBC21B52514AC7B00152537 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B42514AC7B00152537 /* SceneDelegate.swift */; };
 		2CBC21B72514AC7B00152537 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC21B62514AC7B00152537 /* MainViewController.swift */; };
@@ -54,7 +55,8 @@
 		2C6AD40B25160657003EFA13 /* SummaryInfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryInfoCell.xib; sourceTree = "<group>"; };
 		2C76507F251A066F0081FAB2 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		2C765086251A12920081FAB2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-		2CB9155A251B6F43003E2C56 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2C7CD9FB252DCA89000CE2B5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2CB9155A251B6F43003E2C56 /* SignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 		2CBC21AF2514AC7B00152537 /* Currency Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CBC21B22514AC7B00152537 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2CBC21B42514AC7B00152537 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,9 +178,10 @@
 				2CBC21B62514AC7B00152537 /* MainViewController.swift */,
 				2C287AC42518EE2A0031A918 /* CurrencyDetailView.swift */,
 				2C765086251A12920081FAB2 /* DashboardView.swift */,
-				2CB9155A251B6F43003E2C56 /* ProfileView.swift */,
+				2CB9155A251B6F43003E2C56 /* SignInPage.swift */,
 				2CD8E7B8251DE2B000E73783 /* AddInvestmentView.swift */,
 				2C2DC4F225222F560021A114 /* TransferInvestmentView.swift */,
+				2C7CD9FB252DCA89000CE2B5 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,7 +360,7 @@
 			files = (
 				2C765080251A066F0081FAB2 /* Formatter.swift in Sources */,
 				2CD8E7B9251DE2B000E73783 /* AddInvestmentView.swift in Sources */,
-				2CB9155B251B6F43003E2C56 /* ProfileView.swift in Sources */,
+				2CB9155B251B6F43003E2C56 /* SignInPage.swift in Sources */,
 				2C2DC4F325222F560021A114 /* TransferInvestmentView.swift in Sources */,
 				2CE443D22514D89500245077 /* DataModel.swift in Sources */,
 				2C4638F02515425800728DE4 /* BaseDetailCell.swift in Sources */,
@@ -373,6 +376,7 @@
 				2CBC21B52514AC7B00152537 /* SceneDelegate.swift in Sources */,
 				2C2DC50125223FD60021A114 /* API.swift in Sources */,
 				2CBC21BD2514AC7B00152537 /* CurrencyTracker.xcdatamodeld in Sources */,
+				2C7CD9FC252DCA89000CE2B5 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

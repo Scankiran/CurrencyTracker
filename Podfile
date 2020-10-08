@@ -7,7 +7,11 @@ target 'CurrencyTracker' do
 
   # Pods for CurrencyTracker
 	pod 'Firebase/Analytics'
-	pod 'Firebase/Auth'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
 	pod 'FirebaseFirestoreSwift'
+	pod 'ARSLineProgress', '~> 3.1'
+  pod 'Kingfisher'
+
 
 end

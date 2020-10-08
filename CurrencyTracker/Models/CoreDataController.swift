@@ -62,7 +62,8 @@ class CoreDataController {
                 }
             }
         } catch let error as NSError {
-            let err:Error = error as Error
+            print(error.localizedDescription)
+            return false
         }
         return false
 
@@ -97,7 +98,7 @@ class CoreDataController {
             try managedContext.save()
             if Auth.auth().currentUser != nil {
                 let db = Firestore.firestore()
-                db.collection("user").document("\(Auth.auth().currentUser!.uid)").setData(["\(date)" : data])
+                db.collection("users").document("\(Auth.auth().currentUser!.uid)").collection("investments").addDocument(data: data)
             }
             handler(true,nil)
           } catch let error as NSError {
