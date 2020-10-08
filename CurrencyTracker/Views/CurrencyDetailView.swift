@@ -24,7 +24,7 @@ class CurrencyDetailView: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     let db = Firestore.firestore()
-    
+    //
     var bankData:[BankDataType] = []
     var changeRate:[SummaryDataType] = []
     
