@@ -40,8 +40,10 @@ class SettingsView: UIViewController, MFMailComposeViewControllerDelegate, UIIma
             print(info)
             let image = info[.editedImage] as! UIImage
             self.userImage.image = image
+            let imageUrl = "\(info[.imageURL]!)"
+            
             let compressed = image.compress(.medium)
-            API.run.uploadImage(compressed!)
+            API.run.uploadImage(compressed!,String(imageUrl.split(separator: "/").last!))
 //            API.run.uploadImage(image.compress(.medium)!)
             
         }

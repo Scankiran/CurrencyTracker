@@ -26,12 +26,14 @@ class API {
     
     
     
-    func uploadImage(_ data:Data) {
+    func uploadImage(_ data:Data,_ fileName:String) {
         cache.removeImage(forKey: Auth.auth().currentUser!.uid)
         let path = storage.child("users/\(Auth.auth().currentUser!.uid)")
         
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
+        metaData.customMetadata = ["fileName":fileName]
+        
         
         path.putData(data, metadata: metaData) { (metaData, err) in
             if let error = err {
@@ -172,9 +174,9 @@ class API {
     
     func getImage(_ userUID:String, handler:@escaping(_ image:UIImage?,_ error:Error?)-> Void) {
         cache.memoryStorage.config.totalCostLimit = 1
-        
+        let downloader = ImageDownloader.default
         if !cache.isCached(forKey: userUID) {
-            let downloader = ImageDownloader.default
+            
             
             //Show network activity indicator
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -185,11 +187,15 @@ class API {
                     switch result {
                     case .success(let value):
                         self.cache.storeToDisk(value.originalData, forKey: userUID)
+                        self.checkMetaData(userUID) { (result) in
+                            
+                        }
                         handler(value.image, nil)
                     case .failure(let error):
                         handler(nil,error)
                     }
                 })
+                
             } else {
                 handler(UIImage.init(named: "no_image"),nil)
             }
@@ -197,18 +203,58 @@ class API {
 
         } else {
             //Get image from cache.
-            cache.retrieveImage(forKey: userUID) { result in
-                switch result {
-                    case .success(let value):
-                        handler(value.image,nil)
+            self.checkMetaData(userUID) { (result) in
+                if result {
+                    self.cache.retrieveImage(forKey: userUID) { result in
+                        switch result {
+                            case .success(let value):
+                                handler(value.image,nil)
 
-                    case .failure(let error):
-                        handler(nil,error)// The error happens
+                            case .failure(let error):
+                                handler(nil,error)// The error happens
+                            }
                     }
+                } else {
+                    downloader.downloadImage(with: Auth.auth().currentUser!.photoURL!, completionHandler:  { result in
+                        switch result {
+                        case .success(let value):
+                            self.cache.storeToDisk(value.originalData, forKey: userUID)
+                            self.checkMetaData(userUID) { (result) in
+                                
+                            }
+                            handler(value.image, nil)
+                        case .failure(let error):
+                            handler(nil,error)
+                        }
+                    })
+                    
+                }
             }
+            
         }
         
  
+    }
+    
+    
+    private func checkMetaData(_ uid:String,handler:@escaping (_ result:Bool)->Void){
+        storage.child("users/\(uid)").getMetadata { (metaData, err) in
+            if let err = err {
+                print(err.localizedDescription)
+                handler(false)
+                return
+            }
+            
+            if UserDefaults.standard.value(forKey: "fileName") == nil, metaData != nil {
+                UserDefaults.standard.setValue(metaData!.customMetadata!["fileName"]!, forKey: "fileName")
+            } else {
+                if (UserDefaults.standard.value(forKey: "fileName") as! String) == metaData!.customMetadata!["fileName"] {
+                    handler(true)
+                } else {
+                    handler(false)
+                }
+            }
+        }
     }
 }
 
