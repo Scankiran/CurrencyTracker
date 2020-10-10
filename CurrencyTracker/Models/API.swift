@@ -19,8 +19,15 @@ class API {
     let storage = Storage.storage().reference()
     var user:User?
     
-    var summaryData:[SummaryDataType] = []
+    var summaryData:[SummaryDataType] = [] {
+        didSet {
+            for index in summaryData {
+                currencyDict[index.name.lowercased()] = Double(index.value) ?? 0
+            }
+        }
+    }
     var detailedData:[DetailDataType] = []
+    var currencyDict:[String:Double] = [:]
     
     
     
@@ -77,8 +84,6 @@ class API {
     }
     
     
-    
-    
     func saveUser(_ mail:String,_ password:String,handler:@escaping (_ user:User?,_ error:Error?)-> Void) {
         
         Auth.auth().createUser(withEmail: mail, password: password) { (dataResult, error) in
@@ -90,8 +95,6 @@ class API {
         }
         
     }
-    
-    
     
     
     func getCurrencySummary(handler:@escaping (_ result: [SummaryDataType]?,_ error:Error?)-> Void) {
@@ -114,10 +117,7 @@ class API {
             }
         }
     }
-    
-    
-    
-    
+   
     
     func getCurrencyDetailed(handler:@escaping (_ result: [DetailDataType]?,_ error:Error?)-> Void) {
         
@@ -138,8 +138,6 @@ class API {
             }
         }
     }
-    
-    
     
     
     func getCurrencyDetail(_ currencyType:String,handler:@escaping (_ result:[String:Any]?,_ error:Error?)->Void) {
@@ -256,6 +254,50 @@ class API {
             }
         }
     }
+    
+    func sync() {
+        CoreDataController.run.getInvestment { (objects, err) in
+            if let err = err {
+                print(err.localizedDescription)
+            } else {
+                for object in objects! {
+                    let dict = object.dictionaryWithValues(forKeys: Array(object.entity.attributesByName.keys))
+                    API.run.saveInfo(dict, Auth.auth().currentUser!)
+                }
+            }
+        }
+    }
+    
+    
+    
+    func getInvestments(_ userUID:String) {
+        db.collection("users").document(userUID).collection("investments").getDocuments { (snapshot, err) in
+            if let err = err {
+                print(err .localizedDescription)
+                return
+            }
+            
+            CoreDataController.run.clearCoreData()
+            for investment in snapshot!.documents {
+                let data = investment.data()
+                let name = data["name"] as! String
+                let type = data["type"] as! String
+                let value = data["value"] as! Double
+                let buyValue = data["buyValue"] as! Double
+                let date = data["date"] as! Date
+                
+                CoreDataController.run.saveInvestment(name, type, value, buyValue, date) { (result, err) in
+                    if let err = err {
+                        print(err.localizedDescription)
+                        return
+                    }
+                }
+            }
+            
+            
+        }
+    }
+    
 }
 
 

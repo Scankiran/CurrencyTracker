@@ -107,4 +107,31 @@ class CoreDataController {
           }
     }
     
+    func clearCoreData() {
+        self.getInvestment { (objects, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+              
+              // 1
+            let managedContext =
+                appDelegate.persistentContainer.viewContext
+              
+            do {
+                for object in objects! {
+                    managedContext.delete(object)
+                }
+                try managedContext.save()
+            } catch let error as NSError {
+              
+              print("Could not save. \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
 }

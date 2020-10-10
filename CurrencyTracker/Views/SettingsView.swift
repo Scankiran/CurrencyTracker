@@ -97,6 +97,7 @@ class SettingsView: UIViewController, MFMailComposeViewControllerDelegate, UIIma
 
 
 extension SettingsView {
+    //MARK: Setup View
     func setupView() {
         userNameField.text = Auth.auth().currentUser?.displayName
         userMoneyField.text = UserDefaults.standard.value(forKey: "userMoney") as? String ?? ""
@@ -113,6 +114,7 @@ extension SettingsView {
     }
     
     
+    //MARK: Mail
     func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
@@ -131,6 +133,8 @@ extension SettingsView {
     }
     
     
+    
+    //MARK: Update Money Alert
     @objc func createAlert() {
         let alert = UIAlertController.init(title: "Ne kadar paranız var?", message: "Girdiğiniz miktar yatırımlarınızdan önceki miktarı belirtmelidir. ", preferredStyle: .alert)
         
@@ -143,14 +147,16 @@ extension SettingsView {
             
             if let text = alert.textFields![0].text {
                 UserDefaults.standard.set(text, forKey: "userMoney")
-                
+                API.run.saveInfo(["userMoney":text], Auth.auth().currentUser!)
                 //Yatırım yapılabilecek parayı burda kayıtlı olarak tuttum. Eğer daha önceden kayıt edilmişse güncel parayı eski paranın üzerine ekledim.
                 if UserDefaults.standard.value(forKey: "restMoney") == nil {
                     UserDefaults.standard.set(text, forKey: "restMoney")
+                    API.run.saveInfo(["restMoney":text], Auth.auth().currentUser!)
                 } else {
                     let value = Double(text)!
                     let restMoney = Double(UserDefaults.standard.value(forKey: "restMoney") as! String)!
                     UserDefaults.standard.set("\(value + restMoney)", forKey: "restMoney")
+                    API.run.saveInfo(["restMoney":"\(value + restMoney)"], Auth.auth().currentUser!)
                 }
                 
                 self.userMoneyField.text = alert.textFields![0].text
@@ -164,6 +170,7 @@ extension SettingsView {
         self.present(alert,animated: true)
     }
     
+    //MARK: Change Password
     @objc func changePassword() {
         let alert = UIAlertController.init(title: "Şifre Değiştir", message: "Lütfen önce eski şifrenizi, daha sonra yeni şifrenizi giriniz.", preferredStyle: .alert)
         
@@ -204,6 +211,7 @@ extension SettingsView {
     }
     
     
+    //MARK: Sync
     func sync() {
         CoreDataController.run.getInvestment { (objects, err) in
             if let err = err {

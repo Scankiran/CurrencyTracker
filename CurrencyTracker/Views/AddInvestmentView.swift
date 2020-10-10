@@ -30,29 +30,16 @@ class AddInvestmentView: UIViewController {
     @IBOutlet weak var dateField: UITextField!
     @IBOutlet weak var buyValueField: UITextField!
 
-
-    
     lazy var currency:[String] = ["Euro","Dolar","Sterlin","Altın"]
-    
     lazy var alert:UIAlertController = UIAlertController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         giveDelegateToPickerView()
         setupView()
-        typeField.inputView = pickerView
-        dateField.inputView = datePicker
-        datePicker.datePickerMode = .date
-        if #available(iOS 13.4, *) {
-            datePicker.preferredDatePickerStyle = UIDatePickerStyle.wheels
-        }
-        
-        datePicker.addTarget(self, action: #selector(checkDate), for: .valueChanged)
-        
         getMoneyAndCalculate()
+
         
-        let tap = UITapGestureRecognizer.init(target: self, action: #selector(closeKeyboard))
-        self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
     @IBAction func back(_ sender: Any) {
@@ -60,24 +47,31 @@ class AddInvestmentView: UIViewController {
     }
     
     @IBAction func saveButton(_ sender: Any) {
-        CoreDataController.run.saveInvestment(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!, datePicker.date) { (result, error) in
-            
-            if let err = error {
-                //show fail hud
-                ARSLineProgress.showFail()
-                return
-            } else {
-                //show succes hud
-                ARSLineProgress.showSuccess()
-                self.navigationController?.popViewController(animated: true)
+        let canInvesmentMoney = (API.run.currencyDict[secondTypeField.text!.lowercased()]! * Double(valueField.text!)!)
+        if canInvesmentMoney < Double(UserDefaults.standard.value(forKey: "restMoney") as! String)! {
+            CoreDataController.run.saveInvestment(nameField.text!, typeField.text!, Double(valueField.text!)!, Double(buyValueField.text!)!, datePicker.date) { (result, error) in
+                
+                if let err = error {
+                    //show fail hud
+                    print(err.localizedDescription)
+                    ARSLineProgress.showFail()
+                    return
+                } else {
+                    //show succes hud
+                    ARSLineProgress.showSuccess()
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
+            
+            let value = Double(UserDefaults.standard.value(forKey: "userMoney") as! String)!
+            let restMoney = Double(valueField.text!)! * Double(buyValueField.text!)!
+            
+            UserDefaults.standard.setValue("\(value - restMoney)", forKey: "restMoney")
+            API.run.saveInfo(["restMoney":"\(value - restMoney)"], Auth.auth().currentUser!)
+        } else {
+            ARSLineProgress.showFail()
         }
-        
-        let value = Double(UserDefaults.standard.value(forKey: "userMoney") as! String)!
-        let restMoney = Double(valueField.text!)! * Double(buyValueField.text!.replacingOccurrences(of: ",", with: "."))!
-        
-        UserDefaults.standard.setValue("\(value - restMoney)", forKey: "restMoney")
-        
+
     }
     
 
@@ -111,16 +105,16 @@ class AddInvestmentView: UIViewController {
             for index in API.run.summaryData {
                 switch index.name.lowercased() {
                 case "euro":
-                    let euro = Double(index.value.replacingOccurrences(of: ",", with: "."))!
+                    let euro = Double(index.value)!
                     euroLabel.text = "\(Double(round(1000*(moneyValue! / euro))/1000)) €"
                 case "dolar":
-                    let usd = Double(index.value.replacingOccurrences(of: ",", with: "."))!
+                    let usd = Double(index.value)!
                     usdLabel.text = "\(Double(round(1000*(moneyValue! / usd))/1000)) $"
                 case "sterli̇n":
-                    let gbp = Double(index.value.replacingOccurrences(of: ",", with: "."))!
+                    let gbp = Double(index.value)!
                     gbpLabel.text = "\(Double(round(1000*(moneyValue! / gbp))/1000)) £"
                 case "gram altin":
-                    let gold = Double(index.value.replacingOccurrences(of: ",", with: "."))!
+                    let gold = Double(index.value)!
                     goldLabel.text = "\(Double(round(1000*(moneyValue! / gold))/1000)) GR"
                 default:
                     continue
@@ -151,6 +145,19 @@ extension AddInvestmentView {
         typeField.inputAccessoryView = toolbar
         dateField.inputAccessoryView = toolbar
 
+        datePicker.addTarget(self, action: #selector(checkDate), for: .valueChanged)
+        
+        
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(closeKeyboard))
+        self.view.addGestureRecognizer(tap)
+        
+        typeField.inputView = pickerView
+        dateField.inputView = datePicker
+        datePicker.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = UIDatePickerStyle.wheels
+        }
+        
     }
 }
 

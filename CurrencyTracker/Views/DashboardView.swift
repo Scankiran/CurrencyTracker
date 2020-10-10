@@ -111,14 +111,16 @@ extension DashboardView {
             
             if let text = alert.textFields![0].text {
                 UserDefaults.standard.set(text, forKey: "userMoney")
-                
+                API.run.saveInfo(["userMoney":text], Auth.auth().currentUser!)
                 //Yatırım yapılabilecek parayı burda kayıtlı olarak tuttum. Eğer daha önceden kayıt edilmişse güncel parayı eski paranın üzerine ekledim.
                 if UserDefaults.standard.value(forKey: "restMoney") == nil {
                     UserDefaults.standard.set(text, forKey: "restMoney")
+                    API.run.saveInfo(["restMoney":text], Auth.auth().currentUser!)
                 } else {
                     let value = Double(text)!
                     let restMoney = Double(UserDefaults.standard.value(forKey: "restMoney") as! String)!
                     UserDefaults.standard.set("\(value + restMoney)", forKey: "restMoney")
+                    API.run.saveInfo(["restMoney":"\(value + restMoney)"], Auth.auth().currentUser!)
                 }
                 
                 self.beforeInvestmenCashLabel.text = alert.textFields![0].text
